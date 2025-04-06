@@ -64,7 +64,7 @@ public class LoginController extends HttpServlet {
             if (oldSession != null) {
                 oldSession.invalidate(); // Destroy attacker's session
             }
-            HttpSession session = request.getSession(true);  // Create new one for address fixation attack
+            HttpSession session = request.getSession(true);
             session.setAttribute("authenticated", true);
             session.setAttribute("username", username);
             session.setAttribute("role", userService.getUserByUsername(username).getRoleType().name());
@@ -73,6 +73,7 @@ public class LoginController extends HttpServlet {
                 session.setMaxInactiveInterval(ADMIN_TIMEOUT);  // Admin get 30-min sessions
             }
 
+            // POST - REDIRECT - GET (PRG) Design pattern
             response.sendRedirect(request.getContextPath() + "/school-app/dashboard");
 
 
